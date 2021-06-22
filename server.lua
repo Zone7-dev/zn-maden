@@ -1,37 +1,71 @@
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-RegisterNetEvent("zn-tokensat")
-AddEventHandler("zn-tokensat", function()
+RegisterNetEvent("zn-maden:tokensat")
+AddEventHandler("zn-maden:tokensat", function()
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.removeInventoryItem(Config.Token, 1) then
-    xPlayer.addMoney(15)
+    if xPlayer.getInventoryItem("mdntoken").count >= 1 then
+        xPlayer.removeInventoryItem("mdntoken", 1)
+        Citizen.Wait(500)
+        xPlayer.addMoney(15)
+    else
+        TriggerClientEvent('esx:showNotification', source, 'Üzerinde Token Yok')
     end
 end)
 
-RegisterNetEvent("zn-kaya")
-AddEventHandler("zn-kaya", function()
+RegisterNetEvent("zn-maden:kaya")
+AddEventHandler("zn-maden:kaya", function()
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    xPlayer.addInventoryItem(Config.Kaya, 1)
-end)
-
-RegisterNetEvent("zn-taserit")
-AddEventHandler("zn-taserit", function()
-    local xPlayer = ESX.GetPlayerFromId(source)
-
-    if xPlayer.removeInventoryItem(Config.Kaya, 1) then
-    xPlayer.addInventoryItem(Config.Tas, 1)
+    if xPlayer.canCarryItem("kaya", 1) then
+        xPlayer.addInventoryItem("kaya", 1)
+    else
+        TriggerClientEvent('esx:showNotification', source, 'Üzerinde Yer Yok')
     end
 end)
 
-RegisterNetEvent("zn-tokenal")
-AddEventHandler("zn-tokenal", function()
+RegisterNetEvent("zn-maden:kayaerit")
+AddEventHandler("zn-maden:kayaerit", function()
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.removeInventoryItem(Config.Tas, 1) then
-        xPlayer.addInventoryItem(Config.Token, 1)
+    if xPlayer.getInventoryItem("kaya").count >= 1 then
+        if xPlayer.canCarryItem("tas", 1) then
+            xPlayer.removeInventoryItem("kaya", 1)
+            Citizen.Wait(500)
+            xPlayer.addInventoryItem("tas", 1)
+        else
+            TriggerClientEvent('esx:showNotification', source, 'Üzerinde Yer Yok')
+        end
+    else
+        TriggerClientEvent('esx:showNotification', source, 'Üzerinde Kaya Yok')
+    end             
+end)
+
+RegisterNetEvent("zn-maden:tokenal")
+AddEventHandler("zn-maden:tokenal", function()
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if xPlayer.getInventoryItem("tas").count >= 1 then
+        if xPlayer.canCarryItem("mdntoken", 1) then
+            xPlayer.removeInventoryItem("tas", 1)
+            Citizen.Wait(500)
+            xPlayer.addInventoryItem("mdntoken", 1)
+        else
+            TriggerClientEvent('esx:showNotification', source, 'Üzerinde Yer Yok')
+        end
+    else
+        TriggerClientEvent('esx:showNotification', source, 'Üzerinde Taş Yok')
+    end   
+end)
+
+ESX.RegisterServerCallback("zn-maden:itemkontrol", function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if xPlayer.getInventoryItem("kazma").count >= 1 then
+        cb(true)
+    else
+        cb(false) 
     end
 end)
 

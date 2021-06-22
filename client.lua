@@ -12,7 +12,7 @@ end)
 
 function MadenMenu()
     local elements = {
-        {label = 'Araç Kirala',   value = 'arackirala'},
+        {label = 'Araç Al',   value = 'arackirala'},
         {label = 'Token Sat',          value = 'tokensat'},
         {label = 'Menüyü Kapat',       value = 'kapat'},
 
@@ -26,25 +26,24 @@ function MadenMenu()
         elements = elements
     }, function(data, menu)
         if data.current.value == 'arackirala' then
-            TriggerEvent("zn-araccikar")
+            TriggerEvent("zn-maden:aracal")
         elseif data.current.value == 'tokensat' then
-            TriggerServerEvent("zn-tokensat")
+            TriggerServerEvent("zn-maden:tokensat")
         elseif data.current.value == 'kapat' then
             menu.close()
         end
     end)
 end
 
-RegisterNetEvent("zn-araccikar")
-AddEventHandler("zn-araccikar", function()
+RegisterNetEvent("zn-maden:aracal")
+AddEventHandler("zn-maden:aracal", function()
     local ped = PlayerPedId()
-    ESX.Game.SpawnVehicle(Config.Arac, Config.Araccikarma, Config.Heading, function(vehicle)
-        TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    ESX.Game.SpawnVehicle(Config.Arac, Config.Araccikarma, 500.50, function(vehicle)
     end)
 end)
 
-RegisterNetEvent("zn-arackoy")
-AddEventHandler("zn-arackoy", function()
+RegisterNetEvent("zn-maden:arackoy")
+AddEventHandler("zn-maden:arackoy", function()
     local currentVehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
     SetEntityAsMissionEntity(currentVehicle, true, true)
     local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), false))
@@ -76,140 +75,52 @@ end)
 Citizen.CreateThread(function()
     while true do
         local sleep = 2000
-        local player = PlayerPedId()
-        local playercoords = GetEntityCoords(player)
-        local dst = GetDistanceBetweenCoords(playercoords, Config.Tas1.x, Config.Tas1.y, Config.Tas1.z, true)
-        local dst2 = GetDistanceBetweenCoords(playercoords, Config.Tas1.x, Config.Tas1.y, Config.Tas1.z, true)
-        if dst2 < 10 then
-            sleep = 2
-            DrawMarker(2, Config.Tas1.x, Config.Tas1.y, Config.Tas1.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
-            if dst2 < 2 then
-                DrawText3Ds(Config.Tas1.x, Config.Tas1.y, Config.Tas1.z + 0.5, '[E] Kaya Kaz')
-                if IsControlJustReleased(0, 38) then
-                    TriggerEvent("mythic_progbar:client:progress", {
-                        name = "kayakaz",
-                        duration = 30000,
-                        label = "kaya kazıyorsun",
-                        useWhileDead = false,
-                        canCancel = true,
-                        controlDisables = {
-                            disableMovement = true,
-                            disableCarMovement = true,
-                            disableMouse = false,
-                            disableCombat = true,
-                        },
-                        animation = {
-                            animDict = "melee@large_wpn@streamed_core",
-                            anim = "ground_attack_on_spot",
-                            flags = 49,
-                        },
-                        prop = {
-                            model = "prop_tool_pickaxe",
-                            bone = 57005,
-                            coords = { x = 0.18, y = -0.02, z = -0.02 },
-                            rotation = { x = 100.0, y = 150.00, z = 140.0 },
-                        },
-                    }, function(status)
-                        if not status then
-                            TriggerServerEvent("zn-kaya")
-                        end
-                    end)
-                end
-            end
-        end
-        Citizen.Wait(sleep)
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        local sleep = 2000
-        local player = PlayerPedId()
-        local playercoords = GetEntityCoords(player)
-        local dst = GetDistanceBetweenCoords(playercoords, Config.Tas2.x, Config.Tas2.y, Config.Tas2.z, true)
-        local dst2 = GetDistanceBetweenCoords(playercoords, Config.Tas2.x, Config.Tas2.y, Config.Tas2.z, true)
-        if dst2 < 10 then
-            sleep = 2
-            DrawMarker(2, Config.Tas2.x, Config.Tas2.y, Config.Tas2.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
-            if dst2 < 2 then
-                DrawText3Ds(Config.Tas2.x, Config.Tas2.y, Config.Tas2.z + 0.5, '[E] Kaya Kaz')
-                if IsControlJustReleased(0, 38) then
-                    TriggerEvent("mythic_progbar:client:progress", {
-                        name = "kayakaz",
-                        duration = 30000,
-                        label = "kaya kazıyorsun",
-                        useWhileDead = false,
-                        canCancel = true,
-                        controlDisables = {
-                            disableMovement = true,
-                            disableCarMovement = true,
-                            disableMouse = false,
-                            disableCombat = true,
-                        },
-                        animation = {
-                            animDict = "melee@large_wpn@streamed_core",
-                            anim = "ground_attack_on_spot",
-                            flags = 49,
-                        },
-                        prop = {
-                            model = "prop_tool_pickaxe",
-                            bone = 57005,
-                            coords = { x = 0.18, y = -0.02, z = -0.02 },
-                            rotation = { x = 100.0, y = 150.00, z = 140.0 },
-                        },
-                    }, function(status)
-                        if not status then
-                            TriggerServerEvent("zn-kaya")
-                        end
-                    end)
-                end
-            end
-        end
-        Citizen.Wait(sleep)
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        local sleep = 2000
-        local player = PlayerPedId()
-        local playercoords = GetEntityCoords(player)
-        local dst = GetDistanceBetweenCoords(playercoords, Config.Tas3.x, Config.Tas3.y, Config.Tas3.z, true)
-        local dst2 = GetDistanceBetweenCoords(playercoords, Config.Tas3.x, Config.Tas3.y, Config.Tas3.z, true)
-        if dst2 < 10 then
-            sleep = 2
-            DrawMarker(2, Config.Tas3.x, Config.Tas3.y, Config.Tas3.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
-            if dst2 < 2 then
-                DrawText3Ds(Config.Tas3.x, Config.Tas3.y, Config.Tas3.z + 0.5, '[E] Kaya Kaz')
-                if IsControlJustReleased(0, 38) then
-                    TriggerEvent("mythic_progbar:client:progress", {
-                        name = "kayakaz",
-                        duration = 30000,
-                        label = "kaya kazıyorsun",
-                        useWhileDead = false,
-                        canCancel = true,
-                        controlDisables = {
-                            disableMovement = true,
-                            disableCarMovement = true,
-                            disableMouse = false,
-                            disableCombat = true,
-                        },
-                        animation = {
-                            animDict = "melee@large_wpn@streamed_core",
-                            anim = "ground_attack_on_spot",
-                            flags = 49,
-                        },
-                        prop = {
-                            model = "prop_tool_pickaxe",
-                            bone = 57005,
-                            coords = { x = 0.18, y = -0.02, z = -0.02 },
-                            rotation = { x = 100.0, y = 150.00, z = 140.0 },
-                        },
-                    }, function(status)
-                        if not status then
-                            TriggerServerEvent("zn-kaya")
-                        end
-                    end)
+        for k in pairs(Config.Kayabolge) do
+            local player = PlayerPedId()
+            local playercoords = GetEntityCoords(player)
+            local dst = GetDistanceBetweenCoords(playercoords, Config.Kayabolge[k].x, Config.Kayabolge[k].y, Config.Kayabolge[k].z, true)
+            local dst2 = GetDistanceBetweenCoords(playercoords, Config.Kayabolge[k].x, Config.Kayabolge[k].y, Config.Kayabolge[k].z, true)
+            if dst2 < 10 then
+                sleep = 2
+                DrawMarker(2, Config.Kayabolge[k].x, Config.Kayabolge[k].y, Config.Kayabolge[k].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
+                if dst2 < 2 then
+                    DrawText3Ds(Config.Kayabolge[k].x, Config.Kayabolge[k].y, Config.Kayabolge[k].z + 0.5, '[E] Kaya Kaz')
+                    if IsControlJustReleased(0, 38) then
+                        ESX.TriggerServerCallback("zn-maden:itemkontrol", function(item)
+                            if item then
+                                TriggerEvent("mythic_progbar:client:progress", {
+                                    name = "kayakaz",
+                                    duration = 30000,
+                                    label = "kaya kazıyorsun",
+                                    useWhileDead = false,
+                                    canCancel = true,
+                                    controlDisables = {
+                                        disableMovement = true,
+                                        disableCarMovement = true,
+                                        disableMouse = false,
+                                        disableCombat = true,
+                                    },
+                                    animation = {
+                                        animDict = "melee@large_wpn@streamed_core",
+                                        anim = "ground_attack_on_spot",
+                                        flags = 49,
+                                    },
+                                    prop = {
+                                        model = "prop_tool_pickaxe",
+                                        bone = 57005,
+                                        coords = { x = 0.18, y = -0.02, z = -0.02 },
+                                        rotation = { x = 100.0, y = 150.00, z = 140.0 },
+                                    },
+                                }, function(status)
+                                    if not status then
+                                        TriggerServerEvent("zn-maden:kaya")
+                                    end
+                                end)
+                            else
+                                ESX.ShowNotification('Üzerinde Kazma Yok!')
+                            end
+                        end)
+                    end
                 end
             end
         end
@@ -231,7 +142,7 @@ Citizen.CreateThread(function()
             if dst2 < 2 then
                 DrawText3Ds(Config.Araccikarma.x, Config.Araccikarma.y, Config.Araccikarma.z + 0.5, '[E] Aracı Koy')
                 if IsControlJustReleased(0, 38) then
-                    TriggerEvent("zn-arackoy")
+                    TriggerEvent("zn-maden:arackoy")
                 end
             end
         end
@@ -267,7 +178,7 @@ Citizen.CreateThread(function()
                         },
                     }, function(status)
                         if not status then
-                            TriggerServerEvent("zn-tokenal")
+                            TriggerServerEvent("zn-maden:tokenal")
                         end
                     end)
                 end
@@ -282,13 +193,13 @@ Citizen.CreateThread(function()
         local sleep = 2000
         local player = PlayerPedId()
         local playercoords = GetEntityCoords(player)
-        local dst = GetDistanceBetweenCoords(playercoords, Config.TasErit.x, Config.TasErit.y, Config.TasErit.z, true)
-        local dst2 = GetDistanceBetweenCoords(playercoords, Config.TasErit.x, Config.TasErit.y, Config.TasErit.z, true)
+        local dst = GetDistanceBetweenCoords(playercoords, Config.KayaErit.x, Config.KayaErit.y, Config.KayaErit.z, true)
+        local dst2 = GetDistanceBetweenCoords(playercoords, Config.KayaErit.x, Config.KayaErit.y, Config.KayaErit.z, true)
         if dst2 < 5 then
             sleep = 2
-            DrawMarker(2, Config.TasErit.x, Config.TasErit.y, Config.TasErit.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
+            DrawMarker(2, Config.KayaErit.x, Config.KayaErit.y, Config.KayaErit.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 255, 0, 0, 255, 0, 0, 0, 1, 0, 0, 0)
             if dst2 < 2 then
-                DrawText3Ds(Config.TasErit.x, Config.TasErit.y, Config.TasErit.z + 0.5, '[E] Taş Erit')
+                DrawText3Ds(Config.KayaErit.x, Config.KayaErit.y, Config.KayaErit.z + 0.5, '[E] Taş Erit')
                 if IsControlJustReleased(0, 38) then
                     TriggerEvent("mythic_progbar:client:progress", {
                         name = "taşerit",
@@ -309,7 +220,7 @@ Citizen.CreateThread(function()
                         },
                     }, function(status)
                         if not status then
-                            TriggerServerEvent("zn-taserit")
+                            TriggerServerEvent("zn-maden:kayaerit")
                         end
                     end)
                 end
@@ -334,7 +245,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	local blip = AddBlipForCoord(Config.Tas1)
+	local blip = AddBlipForCoord(2952.436, 2767.997, 40.024)
 
 	SetBlipSprite (blip, 268)
 	SetBlipDisplay(blip, 4)

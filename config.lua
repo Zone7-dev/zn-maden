@@ -1,14 +1,18 @@
-Config = {
-    Araccikarma = vector3(1062.003, -1954.67, 31.014), -- Araç Çıkarma Noktası
-    Heading = 359.50, -- Araç Çıkarma Noktası Heading
-    Arac = "rebel", -- Araç
-    Token = "mdntoken", -- Datadaki Token İtem İsmi
-    Menu = vector3(1054.374, -1952.72, 31.7094), -- Açılan Araç Kiralama Menüsü Kordinat
-    Tas = "tas", -- Datadaki Taş İtem İsmi
-    Kaya = "kaya", -- Datadaki Kaya İtem İsmi
-    Tas1 = vector3(2952.436, 2767.997, 40.024), -- Maden Bölgesi 1
-    Tas2 = vector3(2925.935, 2792.406, 41.299), -- Maden Bölgesi 2
-    Tas3 = vector3(2938.288, 2812.632, 43.409), -- Maden Bölgesi 3
-    TasErit = vector3(1113.368, -2004.23, 35.209), -- Taş Eritme Noktası
-    Tokenal = vector3(1079.982, -1982.67, 31.469)  -- Token Dönüştürme Noktası
+Config = {}
+
+Config.Araccikarma = vector3(1073.224, -1949.63, 31.016) -- Araç Çıkarma Noktası
+
+Config.Arac = "rebel" -- Araç
+
+Config.Menu = vector3(1054.374, -1952.72, 31.7094) -- Açılan Araç Kiralama Menüsü Kordinat
+
+Config.KayaErit = vector3(1113.368, -2004.23, 35.209) -- Taş Eritme Noktası
+
+Config.Tokenal = vector3(1079.982, -1982.67, 31.469)  -- Token Dönüştürme Noktası
+
+Config.Kayabolge = {                          -- Kaya Kazma Bölgeleri
+    vector3(2952.436, 2767.997, 40.024),
+    vector3(2925.935, 2792.406, 41.299),
+    vector3(2938.288, 2812.632, 43.409),
+    vector3(2971.817, 2775.539, 39.070)
 }
